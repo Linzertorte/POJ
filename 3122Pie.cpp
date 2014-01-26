@@ -32,7 +32,7 @@ int main()
             if(check(mid)) l=mid;
             else h=mid;
         }
-        printf("%.4lf\n",l);
+        printf("%.4f\n",l);
         
     }
     return 0;
