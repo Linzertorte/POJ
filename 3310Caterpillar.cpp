@@ -1,6 +1,7 @@
 #include<iostream>
 #include<stdio.h>
 #include<vector>
+#include<string.h>
 using namespace std;
 #define MAXN 110
 vector<int> g[MAXN];
@@ -23,10 +24,14 @@ bool caterpillar_dfs(int u,int f)
     vis[u]=1;
     
     // exit
-    if(g[u].size()==1)
+    if(g[u].size()==1 && f)
     {
+//        cout<<"reach"<<u<<endl;
         for(int i=1;i<=n;i++)
-            if(!vis[i]) return false;
+            if(!vis[i]) {
+                vis[u]=2;
+                return false;
+            }
         return true;
     }
     for(int i=0;i<g[u].size();i++)
@@ -49,7 +54,7 @@ bool caterpillar_dfs(int u,int f)
         int v=g[u][i];
         if(v!=f && vis[v]==2) vis[v]=0;
     }
-    vis[u]=0;
+    vis[u]=2;
     return false;
 }
 bool caterpillar()
@@ -67,6 +72,7 @@ int main()
     while(scanf("%d",&n),n)
     {
         scanf("%d",&e);
+        if(n==1 && e==0) goto success;
         for(int i=1;i<=n;i++)
             g[i].clear();
         int a,b;
@@ -82,7 +88,7 @@ int main()
             if(!vis[i]) goto fail;
         
         if(caterpillar()){
-            printf("Graph %d is a caterpillar.\n",q++);
+        success:    printf("Graph %d is a caterpillar.\n",q++);
             continue;
         }
     fail:
