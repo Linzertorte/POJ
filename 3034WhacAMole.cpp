@@ -4,8 +4,8 @@
 #include<stdlib.h>
 using namespace std;
 
-int dp[60][60][11];
-int mole[60][60][11];
+int dp[40][40][11];
+int mole[40][40][11];
 int n,d,m;
 
 inline int sqr(int x)
@@ -23,11 +23,11 @@ int main()
     {
         int x,y,t;
         int max_t=0;
-        n+=40;
+        n+=20;
         memset(dp,0,sizeof(dp));
         memset(mole,0,sizeof(mole));
         for(int i=0;i<m;i++)
-            scanf("%d%d%d",&x,&y,&t), mole[20+x][20+y][t]=1,max_t=max(max_t,t);
+            scanf("%d%d%d",&x,&y,&t), mole[10+x][10+y][t]=1,max_t=max(max_t,t);
         for(t=1;t<=max_t;t++)
             for(int i=0;i<n;i++)
                 for(int j=0;j<n;j++)
