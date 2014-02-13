@@ -31,8 +31,13 @@ void dfs(int u,int f,int dis)
 {
     make_set(u);
     d[u]=dis;
-    vis[u]=1;
     int v;
+    for(int i=0;i<adj[u].size();i++)
+    {
+        v=adj[u][i];
+        if(v!=f && !vis[v]) dfs(v,u,dis+w[u][i]);
+    }
+    vis[u]=1;
     for(int i=0;i<query[u].size();i++)
     {
         v=query[u][i];
@@ -40,11 +45,6 @@ void dfs(int u,int f,int dis)
             answer[id[u][i]]=d[u]+d[v]\
                 -2*d[find_set(v)];
         }
-    }
-    for(int i=0;i<adj[u].size();i++)
-    {
-        v=adj[u][i];
-        if(v!=f && !vis[v]) dfs(v,u,dis+w[u][i]);
     }
     parent[u]=f;
     
