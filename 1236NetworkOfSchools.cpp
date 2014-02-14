@@ -14,14 +14,14 @@ void dfs(int u)
     S[top++]=u;
     for(int i=0;i<n;i++)
         if(g[u][i]){
-            if(dfn[i]==-1) dfs(i);
-            low[u]=min(low[u],low[i]);
+            if(dfn[i]==-1) dfs(i),low[u]=min(low[u],low[i]);
+            else low[u]=min(low[u],dfn[i]);
         }
     int v;
     if(low[u]==dfn[u]){
         do{
             v=S[--top];
-            low[v]=n,scc[v]=scnt;
+            dfn[v]=n,scc[v]=scnt;
         }while(v!=u);
         scnt++;
     }
