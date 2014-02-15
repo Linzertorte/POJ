@@ -26,7 +26,8 @@ int bfs()
             ncow.x=cow.x+dx[k];
             ncow.y=cow.y+dy[k];
             ncow.t=cow.t+1;
-            if(ncow.x>=0 && ncow.y>=0 &&!vis[ncow.x][ncow.y]&& ncow.t<destroy[ncow.x][ncow.y]) cow_queue.push(ncow),vis[ncow.x][ncow.y]=1;
+            if(ncow.x>=0 && ncow.y>=0 &&!vis[ncow.x][ncow.y]&& ncow.t<destroy[ncow.x][ncow.y])
+                cow_queue.push(ncow),vis[ncow.x][ncow.y]=1;
         }
     }
     
