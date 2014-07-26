@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <assert.h>
 #include <stdio.h>
 using namespace std;
 vector<double> X;
@@ -38,12 +39,26 @@ void push_up(int rt){
     }else if(tree[rt].l+1==tree[rt].r) tree[rt].len=0;
     else tree[rt].len = tree[2*rt+1].len + tree[2*rt+2].len;
 }
+void push_down(int rt){
+    if(tree[rt].cover<0)
+        cout<<tree[rt].cover<<endl;
+    assert(tree[rt].cover>=0);
+    
+    if(tree[rt].cover){
+        tree[2*rt+1].cover += tree[rt].cover;
+        tree[2*rt+2].cover += tree[rt].cover;
+        push_up(2*rt+1);
+        push_up(2*rt+2);
+        tree[rt].cover = 0;
+    }
+}
 void update(int rt,int l,int r,int cover){
-    if(l<=tree[rt].l && tree[rt].r<=r){
+    if(l<=tree[rt].l && tree[rt].r<=r && tree[rt].cover + cover>=0){
         tree[rt].cover += cover;
         push_up(rt);
         return;
     }
+    push_down(rt);
     int mid = (tree[rt].l + tree[rt].r)>>1;
     if(l<mid) update(2*rt+1,l,r,cover);
     if(r>mid) update(2*rt+2,l,r,cover);
@@ -74,24 +89,14 @@ int main(){
         sort(Y.begin(),Y.end());
         sort(segs,segs+2*n);
         cnt = unique(Y.begin(),Y.end()) - Y.begin();
-        /*for(int i=0;i<cnt;i++)
-            cout<<Y[i]<<" ";
-        cout<<endl;*/
         build_tree(0,0,cnt-1);
         for(int i=0;i<2*n-1;i++){
             int l = lower_bound(Y.begin(),Y.begin()+cnt,segs[i].y1) - Y.begin();
             int r = lower_bound(Y.begin(),Y.begin()+cnt,segs[i].y2) - Y.begin();
             update(0,l,r,segs[i].cover);
             area += (segs[i+1].x - segs[i].x)*tree[0].len;
-            /*cout<<"l r "<<l<<" "<<r<<endl;
-            cout<<"seg "<<segs[i].y1<<" "<<segs[i].y2<<endl;
-            cout<<tree[0].len<<endl;
-            for(int i=0;i<7;i++){
-                cout<<"(rt,l,r,len,cover)"<<i<<" "<<tree[i].l<<" "<<tree[i].r<<" "<<tree[i].len<<" "<<tree[i].cover<<endl;
-                
-            }*/
-            
         }
+        
         printf("Test case #%d\n",q++);
         printf("Total explored area: %.2f\n\n",area);
     }
