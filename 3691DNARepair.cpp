@@ -8,8 +8,13 @@ using namespace std;
 const int INF = 0x3f3f3f3f;
 
 int toI(char c){
-    string s = "AGCT";
-    return s.find_first_of(c);
+    switch(c){
+        case 'A':return 0;
+        case 'G':return 1;
+        case 'C':return 2;
+        case 'T':return 3;
+    }
+    return -1;
 }
 
 class AC{
