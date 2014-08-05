@@ -117,7 +117,7 @@ void link(int u,int v)
 {//u is the root
     access(u);
     p[u].f = v;
-    access(u);
+   // access(u);
 }
 int LCA(int u,int v){
     access(u);
