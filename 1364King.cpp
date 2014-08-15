@@ -23,9 +23,9 @@ int n,m;
 int main(){
     while(cin>>n,n){
         cin>>m;
-        for(int i=0;i<=n+1;i++)
-            for(int j=0;j<=n+1;j++) g[i][j] = INF;
-        for(int i=0;i<=n+1;i++) dist[i] = INF;
+        for(int i=0;i<=n;i++)
+            for(int j=0;j<=n;j++) g[i][j] = INF;
+        for(int i=0;i<=n;i++) dist[i] = 0;
         int x,y,d;
         string sym;
         for(int i=0;i<m;i++){
@@ -33,14 +33,14 @@ int main(){
             if(sym=="lt") g[x-1][x+y]=d-1;
             else g[x+y][x-1]=-d-1;
         }
-        for(int i=0;i<=n;i++) g[i][n+1]=0;
-        dist[n+1] = 0;
-        for(int k=0;k<=n;k++)
-            for(int i=0;i<=n+1;i++)
-                for(int j=0;j<=n+1;j++) if(dist[i]+g[i][j]<dist[j]) dist[j] = dist[i]+g[i][j];
+        //for(int i=0;i<=n;i++) g[i][n+1]=0;
+        //dist[0] = 0;
+        for(int k=0;k<n;k++)
+            for(int i=0;i<=n;i++)
+                for(int j=0;j<=n;j++) if(dist[i]+g[i][j]<dist[j]) dist[j] = dist[i]+g[i][j];
         bool fail = false;
-        for(int i=0;i<=n+1;i++)
-            for(int j=0;j<=n+1;j++) if(dist[i]+g[i][j]<dist[j]){
+        for(int i=0;i<=n;i++)
+            for(int j=0;j<=n;j++) if(dist[i]+g[i][j]<dist[j]){
                 fail = true;
             }
         if(fail) cout<<"successful conspiracy"<<endl;
