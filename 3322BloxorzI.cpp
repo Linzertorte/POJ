@@ -29,7 +29,17 @@ inline bool non_empty(int i,int j){
     return inboard(i,j) && board[i][j]!='#';
 }
 int dist[N*N][3];
-
+char act[N*N][3]; 
+PII prev[N*N][3];
+void print(PII s){
+    PII pp = prev[s.first][s.second];
+    if(dist[pp.first][pp.second]==0){
+        printf("%c",act[s.first][s.second]);
+        return;
+    }
+    print(pp);
+    printf(" %c",act[s.first][s.second]);
+}
 int bfs(){
     memset(dist,-1,sizeof(dist));
     int si,sj,sp;
@@ -57,22 +67,34 @@ int bfs(){
         int d = dist[head.first][p];
         if(p==0){
             //standing
-            if(board[i][j]=='O') return d;
+            if(board[i][j]=='O') {
+                //print(head);
+                //printf("\n");
+                return d;
+            }
             //up 
             if(non_empty(i-1,j)&&non_empty(i-2,j) && dist[(i-2)*C+j][1]==-1){
                 dist[(i-2)*C+j][1] = d+1;
+                act[(i-2)*C+j][1]='U';
+                prev[(i-2)*C+j][1] = head;
                 Q.push(make_pair((i-2)*C+j,1));
             }
             if(non_empty(i+1,j)&&non_empty(i+2,j) && dist[(i+1)*C+j][1]==-1){
                 dist[(i+1)*C+j][1] = d+1;
+                act[(i+1)*C+j][1] = 'D';
+                prev[(i+1)*C+j][1] = head;
                 Q.push(make_pair((i+1)*C+j,1));
             }
             if(non_empty(i,j-1)&&non_empty(i,j-2) && dist[i*C+j-2][2]==-1){
                 dist[i*C+j-2][2] = d+1;
+                act[i*C+j-2][2]='L';
+                prev[i*C+j-2][2] = head;
                 Q.push(make_pair((i)*C+j-2,2));
             }
             if(non_empty(i,j+1)&&non_empty(i,j+2) && dist[(i)*C+j+1][2]==-1){
                 dist[(i)*C+j+1][2] = d+1;
+                act[(i)*C+j+1][2] = 'R';
+                prev[(i)*C+j+1][2] = head;
                 Q.push(make_pair((i)*C+j+1,2));
             }
             
@@ -81,18 +103,26 @@ int bfs(){
             //vertical
             if(rigid(i-1,j) && dist[(i-1)*C+j][0]==-1){
                 dist[(i-1)*C+j][0]=d+1;
+                act[(i-1)*C+j][0] = 'U';
+                prev[(i-1)*C+j][0] = head;
                 Q.push(make_pair((i-1)*C+j,0));
             }
             if(rigid(i+2,j) && dist[(i+2)*C+j][0]==-1){
                 dist[(i+2)*C+j][0]=d+1;
+                act[(i+2)*C+j][0] = 'D';
+                prev[(i+2)*C+j][0] = head;
                 Q.push(make_pair((i+2)*C+j,0));
             }
             if(non_empty(i,j-1)&&non_empty(i+1,j-1) && dist[(i)*C+j-1][1]==-1){
                 dist[(i)*C+j-1][1] = d+1;
+                act[(i)*C+j-1][1] = 'L';
+                prev[(i)*C+j-1][1] = head;
                 Q.push(make_pair((i)*C+j-1,1));
             }
             if(non_empty(i,j+1)&&non_empty(i+1,j+1) && dist[(i)*C+j+1][1]==-1){
                 dist[(i)*C+j+1][1] = d+1;
+                act[(i)*C+j+1][1]='R';
+                prev[(i)*C+j+1][1] = head;
                 Q.push(make_pair((i)*C+j+1,1));
             }
             
@@ -102,18 +132,26 @@ int bfs(){
             
             if(rigid(i,j-1) && dist[(i)*C+j-1][0]==-1){
                 dist[(i)*C+j-1][0]=d+1;
+                act[(i)*C+j-1][0] = 'L';
+                prev[(i)*C+j-1][0] = head;
                 Q.push(make_pair((i)*C+j-1,0));
             }
             if(rigid(i,j+2) && dist[(i)*C+j+2][0]==-1){
                 dist[(i)*C+j+2][0]=d+1;
+                act[(i)*C+j+2][0] = 'R';
+                prev[(i)*C+j+2][0] = head;
                 Q.push(make_pair((i)*C+j+2,0));
             }
             if(non_empty(i-1,j)&&non_empty(i-1,j+1) && dist[(i-1)*C+j][2]==-1){
                 dist[(i-1)*C+j][2] = d+1;
+                act[(i-1)*C+j][2] = 'U';
+                prev[(i-1)*C+j][2] = head;
                 Q.push(make_pair((i-1)*C+j,2));
             }
             if(non_empty(i+1,j)&&non_empty(i+1,j+1) && dist[(i+1)*C+j][2]==-1){
                 dist[(i+1)*C+j][2] = d+1;
+                act[(i+1)*C+j][2] = 'D';
+                prev[(i+1)*C+j][2] = head;
                 Q.push(make_pair((i+1)*C+j,2));
             }
             
@@ -131,3 +169,13 @@ int main(){
     }
     return 0;
 }
+/*
+6 15
+######.......##
+....##...##..##
+.........##....
+.X..#######..O.
+....#######....
+############...
+
+*/
