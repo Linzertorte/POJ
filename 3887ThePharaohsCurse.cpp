@@ -17,7 +17,7 @@ inline bool operator==(const Config& c1, const Config &c2){
     if(c1.p!=c2.p) return false;
     if(c2.s1==N) return true;
     if(c2.s2==N) return c2.s1 == c1.s1 || c2.s1 == c1.s2;
-    return min(c1.s1,c1.s2)==min(c2.s1,c2.s2) && max(c1.s1,c1.s2)==max(c2.s1,c2.s2);
+    return c1.s1 == c2.s1 && c1.s2 == c2.s2;
     
 }
 int dist[N+1][N+1][N+1];
@@ -50,7 +50,8 @@ int bfs(){
     real[N] = h*w;
     s = id[s], e = id[e];
     x[0] = id[x[0]],x[1]=id[x[1]], b[0]=id[b[0]],b[1]=id[b[1]];
-    
+    if(x[0]>x[1]) swap(x[0],x[1]);
+    if(b[0]>b[1]) swap(b[0],b[1]);
     Config initial(s,x[0],x[1]);
     Config final(e,b[0],b[1]);
     int q_s=0,q_t=0;
@@ -92,7 +93,7 @@ int bfs(){
                 }
             }
             p = id[npi*w+npj], x1 = id[nx1i*w+nx1j], x2 = id[nx2i*w+nx2j];
-            
+            if(x1>x2) swap(x1,x2);
             if(dist[p][x1][x2]!=-1) continue;
             dist[p][x1][x2] = d+1;
             Q[q_t++]=Config(p,x1,x2);
