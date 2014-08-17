@@ -12,7 +12,7 @@ struct Config{
     Config(int _p,int _s1,int _s2):p(_p),s1(_s1),s2(_s2){}
     Config(){}
 } Q[200*200*200];
-bool operator==(const Config& c1, const Config &c2){
+inline bool operator==(const Config& c1, const Config &c2){
     //c2 is final
     if(c1.p!=c2.p) return false;
     if(c2.s1==N) return true;
