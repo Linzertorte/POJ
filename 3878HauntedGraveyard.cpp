@@ -38,7 +38,9 @@ int main()
                 if(grave[i][j]!='.') continue;
                 for(int k=0;k<4;k++){
                     x = i+dx[k], y = j+dy[k];
-                    if(x>=0 && x<W && y>=0 && y<H && grave[x][y]!='G') g[i*H+j].push_back(make_pair(x*H+y,1));
+                    if(x>=0 && x<W && y>=0 && y<H &&
+                       grave[x][y]!='G')
+                        g[i*H+j].push_back(make_pair(x*H+y,1));
                 }
             }
         int n = W*H;
@@ -49,17 +51,17 @@ int main()
                 if(dist[u]==INF) continue;
                 for(int i=0;i<g[u].size();i++){
                     PII &e = g[u][i];
-                    if(dist[u]+e.second<dist[e.first]) dist[e.first] = dist[u]+e.second;
+                    if(dist[u]+e.second<dist[e.first])
+                        dist[e.first] = dist[u]+e.second;
                 }
             }
-        
-        int best = dist[n-1];
         bool negative = false;
         for(int u=0;u<n;u++)
             for(int i=0;i<g[u].size();i++){
                 PII &e = g[u][i];
                 if(dist[u]==INF) continue;
-                if(dist[u]+e.second<dist[e.first]) negative=true;//dist[e.first] = dist[u]+e.second;
+                if(dist[u]+e.second<dist[e.first])
+                    negative=true;//dist[e.first] = dist[u]+e.second;
             }
         //if(best>dist[n-1]) negative = true;
         if(negative) printf("Never\n");
