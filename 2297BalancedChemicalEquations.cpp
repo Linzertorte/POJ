@@ -130,7 +130,7 @@ inline int guass(){
             printf("%d ",x_free[i]);
         printf("\n");
     }
-    for(int k=n;k<m;k++) if(M[k][n+1]!=0) return -1;
+    for(int k=row;k<m;k++) if(M[k][n+1]!=0) return -1;
     
     return 0;
     
