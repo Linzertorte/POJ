@@ -20,13 +20,13 @@ void dfs(int u,int f){
         if(v==f)continue;
         if(dfn[v]==-1){
             dfs(v,u);
+            //parts++;
             low[u] = min(low[u],low[v]);
             if(low[v]>=dfn[u]) ok = true, parts++;
         }else if(dfn[u]>dfn[v]) low[u] = min(low[u],dfn[v]);
         
     }
-    if(low[u]>=dfn[u]) ok = true;
-    if(ok || u==root){
+    if(ok){
         if(u==root) best = max(best,parts);
         else best = max(best,parts+1);
     }
