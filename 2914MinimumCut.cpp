@@ -14,8 +14,8 @@ int min_cut_phase(int a){
     memset(visited,0,sizeof(visited));
     memset(w,0,sizeof(w));
     visited[a] = 1;
-    for(int i=1;i<n;i++)
-        if(valid[i]) w[i] = g[0][i];
+    for(int i=0;i<n;i++)
+        if(i!=a && valid[i]) w[i] = g[a][i];
     int last;
     int u,v;//need merge u and v
     for(int k=1;k<V;k++){
