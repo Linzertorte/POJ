@@ -32,7 +32,8 @@ double end_to_end(Wall w1,Wall w2){
     return min(dist(w1.p1,w2.p1),min(dist(w1.p1,w2.p2),min(dist(w1.p2,w2.p1),dist(w1.p2,w2.p2))));
 }
 double h_wood(Wall w1,Wall w2){
-    if(between(w1.p1.x,w2.p1.x,w2.p2.x) || between(w1.p2.x,w2.p1.x,w2.p2.x)  || between(w2.p1.x,w1.p1.x,w1.p2.x) || between(w2.p2.x,w1.p1.x,w1.p2.x))
+    if(between(w1.p1.x,w2.p1.x,w2.p2.x) || between(w1.p2.x,w2.p1.x,w2.p2.x)  
+    || between(w2.p1.x,w1.p1.x,w1.p2.x) || between(w2.p2.x,w1.p1.x,w1.p2.x))
         return abs(w1.p1.y-w2.p1.y);
     else return end_to_end(w1,w2);
 }
