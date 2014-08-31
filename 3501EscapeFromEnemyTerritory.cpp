@@ -7,24 +7,26 @@
 #include<vector>
 #include<utility>
 using namespace std;
-const int MAXX = 1000;
-const int MAXY = 1000;
-const int N = 10000;
 typedef pair<int,int> PII;
+const int MAXX = 1100;
+const int MAXY = 1100;
+const int N = 10000;
+
 int n,X,Y;
-pair<int,int> enemy[N];
+pair<int,int> ene[N];
 int dist[MAXX][MAXY];
 int dist2[MAXX][MAXY];
 pair<int,int> q[MAXX*MAXY];
 int dx[4] = {0,0,1,-1};
 int dy[4] = {1,-1,0,0};
+int xi,yi,xr,yr;
 void compute_distance()
 {
     int s,t;
     s=t=0;
     memset(dist,-1,sizeof(dist));
     for(int i=0;i<n;i++)
-        q[t++] = enemy[i], dist[enemy[i].first][enemy[i].second] = 0;
+        q[t++] = ene[i], dist[ene[i].first][ene[i].second] = 0;
     while(s<t){
         PII head = q[s++];
         int x = head.first, y = head.second;
@@ -41,10 +43,10 @@ void compute_distance()
     
     
 }
-int xi,yi,xr,yr;
+
 int shortest(int d)
 {
-    //shortest path when at least d away from enemy
+    
     if(dist[xi][yi]<d) return -1;
     memset(dist2,-1,sizeof(dist2));
     dist2[xi][yi] = 0;
@@ -75,7 +77,7 @@ int main()
         scanf("%d%d%d",&n,&X,&Y);
         scanf("%d%d%d%d",&xi,&yi,&xr,&yr);
         for(int i=0;i<n;i++)
-            scanf("%d%d",&enemy[i].first,&enemy[i].second);
+            scanf("%d%d",&ene[i].first,&ene[i].second);
         compute_distance();
         int l = 0, r = X+Y;
         int mid;
