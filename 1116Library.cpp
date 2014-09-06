@@ -42,45 +42,53 @@ int cut_shelf_right(const Shelf& s,int x){
 }
 void clear_rectangle(int x1,int x2,int y1,int y2,int p){
     int pegs = p, shorten = 0;
-    int dp1=0,dp2=0;
+    
     for(int i=0;i<n;i++){
-        if(i) shelves[i-1].px1+=dp1, shelves[i-1].px2+=dp2;
-        dp1 = 0, dp2 = 0;
+        
         // 1. leave the shelf on its original place
         if(shelves[i].y<=y1 || shelves[i].y>=y2) continue;
         if(shelves[i].x2<=x1 || shelves[i].x1>=x2) continue;
         
         // 6. if peg is between, must remove two pegs and shelf
-        if(shelves[i].px1>=x1 && shelves[i].px2<=x2){
+        if(shelves[i].px1>x1 && shelves[i].px2<x2){
             pegs += 2;
             shorten += shelves[i].x2-shelves[i].x1;
             continue;
         }
         int this_cut = INT_MAX;
+        int this_peg = INT_MAX;
         int yes = 0;
         if(shelves[i].px2>x1 && shelves[i].px1<=x1){
             yes = 1;
-            this_cut = min(this_cut,cut_shelf_right(shelves[i],x1));
+            int cc = 0;
+            if(x1==0) yes = 2, cc = shelves[i].x2-shelves[i].x1;
+            else cc= cut_shelf_right(shelves[i],x1);
+            if(yes<this_peg) this_peg = yes, this_cut = cc;
+            else if(yes==this_peg) this_cut = min(cc,this_cut);
         }
         if(shelves[i].px1<x2 && shelves[i].px2>=x2){
             yes = 1;
-            this_cut = min(this_cut,cut_shelf_left(shelves[i],x2));
+            int cc=0;
+            if(x2==niche_w) yes =2, cc = shelves[i].x2-shelves[i].x1;
+            else cc = cut_shelf_left(shelves[i],x2);
+            if(yes<this_peg) this_peg =yes, this_cut =cc;
+            else if(yes==this_peg) this_cut = min(cc,this_cut);
         }
         //  printf("peg %d\n",pegs);
         
         if(yes) {
-            pegs++;
+            pegs+=this_peg;
             if(this_cut!=INT_MAX)
                 shorten += this_cut;
         }
         else{
             this_cut = INT_MAX;
-            if(shelves[i].px1<x1 && shelves[i].px2<x1){
+            if(shelves[i].px1<=x1 && shelves[i].px2<=x1){
                 move(shelves[i],x1-shelves[i].x2);
                 this_cut = min(this_cut,l_cut);
                 
             }
-            if(shelves[i].px2>x2 && shelves[i].px1>x2) {
+            if(shelves[i].px2>=x2 && shelves[i].px1>=x2) {
                 move(shelves[i],x2-shelves[i].x1);
                 this_cut = min(this_cut,l_cut);
             }
@@ -90,7 +98,6 @@ void clear_rectangle(int x1,int x2,int y1,int y2,int p){
         //printf("shorten %d\n",shorten);
         
     }
-    shelves[n-1].px1+=dp1, shelves[n-1].px2+=dp2;
     //printf("result %d %d\n-----------\n",pegs,shorten);
     if(pegs<pegs_removed) pegs_removed =pegs, cut = shorten;
     else if(pegs == pegs_removed) cut = min(cut,shorten);
@@ -105,17 +112,18 @@ void place_tome(int i){
         clear_rectangle(x,x+tome_w,shelves[i].y,shelves[i].y+tome_h,0);
     }
     x1 = max(0,shelves[i].px1-l);
-    x2 = min(niche_w-tome_w,shelves[i].px1+l-tome_w);
+    x2 = min(niche_w-tome_w,shelves[i].px2+l-tome_w);
     for(int x=x1;x<=x2;x++){
+        
         clear_rectangle(x,x+tome_w,shelves[i].y,shelves[i].y+tome_h,1);
     }
+    
     x1 = max(0,shelves[i].px2-l);
     x2 = min(niche_w-tome_w,shelves[i].px2+l-tome_w);
     for(int x=x1;x<=x2;x++){
         clear_rectangle(x,x+tome_w,shelves[i].y,shelves[i].y+tome_h,1);
     }
 }
-
 
 int main()
 {
@@ -130,10 +138,6 @@ int main()
         shelves[i].x2 = x+l;
         shelves[i].px1 = x1+x;
         shelves[i].px2 = x2+x;
-    }
-    if(n==10){
-        printf("3 5\n");
-        return 0;
     }
     
     pegs_removed = INT_MAX, cut = INT_MAX;
