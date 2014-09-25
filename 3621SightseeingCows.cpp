@@ -13,37 +13,29 @@ const int L = 1001;
 int l,p;
 int fun[L];
 struct Edge{
-    int v,w;
-    Edge(){}
-    Edge(int _v,int _w):v(_v),w(_w){}
-};
-vector<Edge> elist[L];
+    int u,v,w;
+}elist[P];
 int bellman_ford(double x){
     double dist[L];
-    queue<int> Q;
-    int inque[L],in[L];
-    memset(inque,0,sizeof inque);
-    memset(in,0,sizeof in);
-    for(int i=1;i<=l;i++)
-        Q.push(i), dist[i] = 0, in[i] = 1, inque[i] = 1;
-    while(!Q.empty()){
-        int u = Q.front();
-        Q.pop();
-        inque[u] = 0;
-        for(int i=0;i<elist[u].size();i++){
-            Edge &e = elist[u][i];
+    for(int i=1;i<=l;i++) dist[i] = 0;
+    bool ok = false;
+    for(int i=1;i<l;i++){
+        ok = true;
+        for(int j=0;j<p;j++){
+            Edge &e = elist[j];
+            int u = e.u;
             int v = e.v;
             double w = e.w*x - fun[v];
-            if(dist[v]>dist[u]+w){
-                dist[v] = dist[u] + w;
-                if(!inque[v]){
-                    inque[v] = 1;
-                    Q.push(v);
-                    in[v]++;
-                    if(in[v]>l) return true;
-                }
-            }
+            if(dist[u]+w<dist[v]) dist[v] = dist[u]+w,ok = false;
         }
+        if(ok) break;
+    }
+    for(int j=0;j<p;j++){
+        Edge &e = elist[j];
+        int v = e.v;
+        int u = e.u;
+        double w = e.w*x - fun[v];
+        if(dist[u]+w<dist[v]) return true;
     }
     return false;
 }
@@ -55,7 +47,7 @@ int main()
     int u,v,w;
     for(int i=0;i<p;i++){
         scanf("%d%d%d",&u,&v,&w);
-        elist[u].push_back(Edge(v,w));
+        elist[i].u = u, elist[i].v=v, elist[i].w = w;
     }
     double l = 0.0, r = 1000.0;
     double mid;
