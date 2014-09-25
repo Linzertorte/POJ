@@ -40,7 +40,7 @@ int bellman_ford(double x){
                     inque[v] = 1;
                     Q.push(v);
                     in[v]++;
-                    if(in[v]>=l) return true;
+                    if(in[v]>l) return true;
                 }
             }
         }
