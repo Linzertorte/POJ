@@ -103,11 +103,16 @@ inline bool check(int T){
             if(g[i][j]==INF) continue;
             int x = min(dist[i],dist[j]);
             int y = min(rdist[i],rdist[j]);
-            int u,v;
-            if(dist[i]<dist[j]) u = i, v = j;
-            else u=j,v=i;
-            if(x>T || y>T || x+y+g[i][j]>2*T) dinic.addEdge(u,v,10000);
-            else dinic.addEdge(u,v,1);
+            if(x>T || y>T){
+                dinic.addEdge(i,j,1000);
+                continue;
+            }
+            if(dist[i]<=T && rdist[i]<=T || dist[j]<=T && rdist[j]<=T){
+                dinic.addEdge(i,j,1);
+                continue;
+            }
+            if(x+y+g[i][j]>2*T) dinic.addEdge(i,j,1000);
+            else dinic.addEdge(i,j,1);
         }
     int flow = dinic.maxflow();
     //cout<<"flow "<<flow<<endl;
@@ -118,7 +123,6 @@ int main()
     while(scanf("%d",&n),n){
         int u,v,w;
         scanf("%d%d",&m,&e);
-       
         n+=2;//n-2 city 1, n-1 city 2
         for(int i=0;i<n;i++)
             for(int j=0;j<n;j++) g[i][j] = INF;
@@ -129,10 +133,6 @@ int main()
             if(v==city1) v = n-2;
             if(v==city2) v = n-1;
             g[u][v] = g[v][u] = 2*w;
-        }
-         if(e==1708) {
-             printf("811.0\n");
-             continue;
         }
         dijkstra(n-2,dist);
         dijkstra(n-1,rdist);
