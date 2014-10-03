@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<math.h>
+#include<algorithm>
 using namespace std;
 const int N = 100000;
 int n,m,k;
