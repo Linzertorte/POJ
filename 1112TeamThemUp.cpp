@@ -47,8 +47,8 @@ void get(int d,int i,int j){
 }
 int main()
 {
-    int t;
-    scanf("%d",&t);
+    int t=1;
+    //scanf("%d",&t);
     while(t--){
         scanf("%d",&n);
         for(int i=1;i<=n;i++)
