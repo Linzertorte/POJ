@@ -26,7 +26,7 @@ int main()
             if(grid[i][j]=='J') cows[cnt++]=make_pair(i,j);
     int best = 0;
     for(int i=0;i<cnt;i++)
-        for(int j=0;j<cnt;j++)
+        for(int j=cnt-1;j>=0;j--)
         {
             if(i==j) continue;
             int dx = cows[i].first-cows[j].first;
@@ -47,8 +47,6 @@ int main()
             
             if(need<=1) best = max(best,dx*dx+dy*dy);
         }
-    
-    
     printf("%d\n",best);
     return 0;
 }
