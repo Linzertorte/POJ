@@ -5,7 +5,7 @@
 #include<algorithm>
 using namespace std;
 typedef long long LL;
-LL dp[1005];
+LL dp[1005];//dp(i,j) spend i, least P[j]
 int P[31];
 LL sum[1005];
 int main()
@@ -37,6 +37,7 @@ int main()
             for(int j=D-P[i]+1;j<=D;j++)
                 answer += dp[j];
         }
+        if(sum[V]<=D) answer++;
         printf("%d %lld\n",q,answer);
         
     }
