@@ -22,41 +22,21 @@ int main()
                 bool kill = (i==t);
                 for(int j=0;j<10;j++)
                     if(road[i][j]&&kill) frog[j] = 0;
-                
-                if(i<=4){//left
-                    for(int j=0;j<10;j++)
+                for(int j=0;j<10;j++)
                         tmp[j] = road[i][j],road[i][j] = 0;
                     for(int j=0;j<10;j++)
                         if(tmp[j]){
                             int d = tmp[j];
                             int jj = j;
                             for(int k=1;k<=d;k++){
-                                jj--;
-                                if(jj<0) jj+=10;
-                                if(kill)frog[jj] = 0;
-                            }
-                            road[i][jj] = d;
-                        }
-                    
-                }else{//right
-                    for(int j=0;j<10;j++)
-                        tmp[j] = road[i][j],road[i][j] = 0;
-                    for(int j=0;j<10;j++)
-                        if(tmp[j]){
-                            int d = tmp[j];
-                            int jj = j;
-                            for(int k=1;k<=d;k++){
-                                jj++;
+                                if(i<=4) jj--;
+                                else jj++;
                                 if(jj==10) jj-=10;
+                                if(jj==-1) jj+=10;
                                 if(kill)frog[jj] = 0;
                             }
                             road[i][jj] = d;
                         }
-                }
-                //for(int j=0;j<10;j++)
-                //    if(road[i][j]) frog[j] = 0;
-                //try to kill it before it
-                
             }
         }
         bool killed = true;
