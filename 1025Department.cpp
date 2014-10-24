@@ -32,7 +32,7 @@ void LOG(int id,int t1,int t2,string msg){
 }
 bool handle(Agent &agent){
     //mutate Agent
-    //it has more event, return false
+    //if has NO more event, return false
     int id = agent.id;
     if(agent.next_room ==-1){
         LOG(agent.id,agent.t,agent.t+30,"Entry");
