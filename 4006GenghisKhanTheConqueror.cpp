@@ -48,7 +48,7 @@ int prim()
 void dfs(int x)
 {
     for (int i = 0; i < n; i++)
-        if (f[i] == x && a[x][i] < 1000000000 && a[x][i] != -1)
+        if (f[i] == x )
         {
             dfs(i);
             for (int j = 0; j < n; j++) b[x][j] = min(b[x][j],b[i][j]);
