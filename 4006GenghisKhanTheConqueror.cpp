@@ -54,7 +54,7 @@ void dfs(int x)
             for (int j = 0; j < n; j++) b[x][j] = min(b[x][j],b[i][j]);
         }
     for (int i = 0; i < n; i++)
-        if (i != f[x]) b[x][i] = min(b[x][i],a[x][i]);
+        b[x][i] = min(b[x][i],a[x][i]);
 }
 int main()
 {
